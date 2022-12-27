@@ -7,7 +7,8 @@ import (
 )
 
 func init() {
-	initializers.Load()
+	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
 }
 func main() {
 	r := gin.Default()

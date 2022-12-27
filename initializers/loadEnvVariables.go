@@ -1,11 +1,14 @@
 package initializers
 
-import "github.com/joho/godotenv"
+import (
+	"log"
 
-func Load() {
+	"github.com/joho/godotenv"
+)
+
+func LoadEnvVariables() {
 	err := godotenv.Load()
 	if err != nil {
-		log
-		.Fatal("Error loading .env file")
+		log.Fatal("Error loading .env file")
 	}
 }
