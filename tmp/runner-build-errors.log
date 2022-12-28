@@ -1,2 +1,0 @@
-# go-curd/controllers
-controllers\postsController.go:24:31: cannot use err.Error() (value of type string) as type *gin.Error in argument to append
