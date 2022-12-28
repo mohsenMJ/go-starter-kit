@@ -6,7 +6,7 @@ a simple golang project to help you start fast and focus on your business
 
 ## Installation
 
-clone the repositories and run the follwoing commands.
+clone the repository and run the follwoing commands.
 
 ```sh
 cd go-starter-kit
