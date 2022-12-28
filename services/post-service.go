@@ -1,8 +1,6 @@
 package services
 
 import (
-	"log"
-
 	"github.com/mohsenMj/go-starter-kit/app"
 	"github.com/mohsenMj/go-starter-kit/models"
 )
@@ -32,8 +30,6 @@ func (s *postService) Save(post *models.Post) {
 func (s *postService) All() []models.Post {
 	var posts []models.Post
 	app.DB.Debug().Find(&posts)
-	log.Println("inside the All service")
-
 	return posts
 }
 
