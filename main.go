@@ -4,23 +4,39 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/mohsenMj/go-starter-kit/app"
 	"github.com/mohsenMj/go-starter-kit/controllers"
-	"github.com/mohsenMj/go-starter-kit/middlewares"
 )
 
 func init() {
 	app.LoadEnvVariables()
 	app.ConnectToDB()
 }
+
+var (
+	// authController controllers.AuthController = controllers.NewAuthController()
+
+	postController controllers.PostController = controllers.NewPostController()
+)
+
 func main() {
+	defer app.CloseDbConnection()
+
 	r := gin.Default()
 
-	r.Use(middlewares.ErrorHandler)
+	// r.Use(middlewares.ErrorHandler)
 
-	r.POST("/posts", controllers.PostCreate)
-	r.PUT("/posts/:id", controllers.PostUpdate)
-	r.GET("/posts", controllers.PostsIndex)
-	r.GET("/posts/:id", controllers.PostsShow)
-	r.DELETE("/posts/:id", controllers.PostsDelete)
+	// authGroup := r.Group("api/auth")
+	// {
+	// authGroup.POST("/login", authController.Login)
+	// }
+
+	postGroup := r.Group("/posts")
+	{
+		postGroup.GET("/", postController.Index)
+		postGroup.GET("/:id", postController.Show)
+		postGroup.POST("/", postController.Create)
+		postGroup.PUT("/:id", postController.Update)
+		postGroup.DELETE("/:id", postController.Delete)
+	}
 
 	r.Run()
 }

@@ -26,3 +26,13 @@ func ConnectToDB() {
 
 	log.Println("Databse is connected Successfuly...")
 }
+
+func CloseDbConnection() {
+	dbInstance, err := DB.DB()
+	if err != nil {
+		panic("Failed to close the connection")
+	}
+	_ = dbInstance.Close()
+
+	log.Println("Databse connection closed Successfuly...")
+}
