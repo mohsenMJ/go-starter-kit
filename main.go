@@ -3,6 +3,7 @@ package main
 import (
 	"go-curd/app"
 	"go-curd/controllers"
+	"go-curd/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,8 @@ func init() {
 }
 func main() {
 	r := gin.Default()
+
+	r.Use(middlewares.ErrorHandler)
 
 	r.POST("/posts", controllers.PostCreate)
 	r.PUT("/posts/:id", controllers.PostUpdate)
