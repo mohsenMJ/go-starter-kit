@@ -15,7 +15,6 @@ type PostService interface {
 	Delete(id string)
 }
 
-// this is only to be able to access the real methods
 type postService struct{}
 
 func NewPostService() PostService {

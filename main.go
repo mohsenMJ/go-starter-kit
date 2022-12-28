@@ -26,7 +26,7 @@ func main() {
 
 	// authGroup := r.Group("api/auth")
 	// {
-	// authGroup.POST("/login", authController.Login)
+	// 	authGroup.POST("/login", authController.Login)
 	// }
 
 	postGroup := r.Group("/posts")
