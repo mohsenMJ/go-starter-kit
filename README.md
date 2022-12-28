@@ -6,9 +6,7 @@ a simple golang project to help you start fast and focus on your business
 
 ## Installation
 
-Dillinger requires [Node.js](https://nodejs.org/) v10+ to run.
-
-Install the dependencies and devDependencies and start the server.
+clone the repositories and run the follwoing commands.
 
 ```sh
 cd go-starter-kit
