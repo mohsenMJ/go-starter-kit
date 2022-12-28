@@ -1,4 +1,4 @@
-module go-curd
+module github.com/mohsenMj/go-starter-kit
 
 go 1.19
 

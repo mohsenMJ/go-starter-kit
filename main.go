@@ -1,11 +1,10 @@
 package main
 
 import (
-	"go-curd/app"
-	"go-curd/controllers"
-	"go-curd/middlewares"
-
 	"github.com/gin-gonic/gin"
+	"github.com/mohsenMj/go-starter-kit/app"
+	"github.com/mohsenMj/go-starter-kit/controllers"
+	"github.com/mohsenMj/go-starter-kit/middlewares"
 )
 
 func init() {

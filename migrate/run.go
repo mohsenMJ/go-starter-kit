@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"go-curd/app"
-	"go-curd/models"
+
+	"github.com/mohsenMj/go-starter-kit/models"
 )
 
 func init() {
