@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mohsenMj/go-starter-kit/app/services"
 )
 
 type AuthController interface {
@@ -20,8 +21,10 @@ func NewAuthController() AuthController {
 }
 
 func (c *authController) Login(ctx *gin.Context) {
+	jwt := services.NewJWTService()
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "Hello Login",
+		"token":   jwt.GenerateToken("1"),
 	})
 }
 

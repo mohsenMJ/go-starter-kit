@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/mohsenMj/go-starter-kit/app"
-	"github.com/mohsenMj/go-starter-kit/models"
+	app "github.com/mohsenMj/go-starter-kit/app/providers"
+	"github.com/mohsenMj/go-starter-kit/database/models"
 )
 
 type PostService interface {

@@ -1,6 +1,11 @@
-package helper
+package utils
 
-import "strings"
+import (
+	"log"
+	"strings"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 type Response struct {
 	Status  bool        `json:"status"`

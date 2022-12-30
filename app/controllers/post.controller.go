@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mohsenMj/go-starter-kit/models"
-	"github.com/mohsenMj/go-starter-kit/services"
+	"github.com/mohsenMj/go-starter-kit/app/services"
+	"github.com/mohsenMj/go-starter-kit/database/models"
 )
 
 type createPostInput struct {
