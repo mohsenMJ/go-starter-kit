@@ -3,21 +3,22 @@ package main
 import (
 	"fmt"
 
-	app "github.com/mohsenMj/go-starter-kit/app/initializers"
-	"github.com/mohsenMj/go-starter-kit/database/models"
+	"github.com/mohsenMj/go-starter-kit/app/initializers/database"
+	"github.com/mohsenMj/go-starter-kit/app/initializers/env"
+	"github.com/mohsenMj/go-starter-kit/app/models"
 )
 
 func init() {
-	app.LoadEnvVariables()
-	app.DatabaseConnect()
+	env.LoadVariables()
+	database.Connect()
 }
 
 func main() {
-	defer app.DatabaseDisconnect()
+	defer database.Disconnect()
 
 	fmt.Println("Starting to migrate the database")
 
-	app.DB.Debug().AutoMigrate(&models.Post{}, &models.User{})
+	database.DB.Debug().AutoMigrate(&models.Post{}, &models.User{})
 
 	fmt.Println("Migration is Done")
 

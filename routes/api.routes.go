@@ -1,24 +1,13 @@
 package routes
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
-	"github.com/mohsenMj/go-starter-kit/app/http/controllers"
-)
-
-var (
-	authController controllers.AuthController = controllers.NewAuthController()
-	postController controllers.PostController = controllers.NewPostController()
+	"github.com/mohsenMj/go-starter-kit/app/controllers"
 )
 
 func Api(r *gin.Engine) {
-
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(http.StatusOK, gin.H{
-			"message": "Welcome to Go Starter Kit",
-		})
-	})
+	authController := controllers.NewAuthController()
+	postController := controllers.NewPostController()
 
 	apiGroup := r.Group("/api")
 	{

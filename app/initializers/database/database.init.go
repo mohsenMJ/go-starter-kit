@@ -1,4 +1,4 @@
-package app
+package database
 
 import (
 	"log"
@@ -10,7 +10,7 @@ import (
 
 var DB *gorm.DB
 
-func DatabaseConnect() {
+func Connect() {
 	var err error
 	DB_HOST := os.Getenv("DB_HOST")
 	DB_PORT := os.Getenv("DB_PORT")
@@ -27,7 +27,7 @@ func DatabaseConnect() {
 	log.Println("Databse is connected Successfuly...")
 }
 
-func DatabaseDisconnect() {
+func Disconnect() {
 	dbInstance, err := DB.DB()
 	if err != nil {
 		panic("Failed to close the connection")

@@ -1,44 +1,70 @@
 package services
 
 import (
-	app "github.com/mohsenMj/go-starter-kit/app/providers"
-	"github.com/mohsenMj/go-starter-kit/database/models"
+	"github.com/mohsenMj/go-starter-kit/app/models"
+	"github.com/mohsenMj/go-starter-kit/app/repositories"
+	"github.com/mohsenMj/go-starter-kit/app/responses"
 )
 
 type PostService interface {
-	Create(*models.Post)
-	Save(*models.Post)
+	Create(post *models.Post)
+	Update(post *models.Post)
+	Delete(id string)
 	All() []models.Post
 	Get(id string) models.Post
-	Delete(id string)
+	Response(post models.Post) responses.PostResponse
 }
 
-type postService struct{}
+type postService struct {
+	rep repositories.PostRepository
+}
 
-func NewPostService() PostService {
-	return &postService{}
+func NewPostService(rep repositories.PostRepository) PostService {
+	return &postService{
+		rep: rep,
+	}
 }
 
 func (s *postService) Create(post *models.Post) {
-	app.DB.Debug().Create(&post)
+	s.rep.Create(post)
 }
 
-func (s *postService) Save(post *models.Post) {
-	app.DB.Debug().Save(&post)
+func (s *postService) Update(post *models.Post) {
+	s.rep.Update(post)
 }
 
 func (s *postService) All() []models.Post {
-	var posts []models.Post
-	app.DB.Debug().Find(&posts)
+	posts := s.rep.All()
+
+	// var response []models.Post
+	// for _, post := range posts {
+	// 	response = append(response, models.Post{
+	// 		ID:    post.ID,
+	// 		Title: post.Title,
+	// 		Body:  post.Body,
+	// 	})
+	// }
 	return posts
 }
 
 func (s *postService) Get(id string) models.Post {
 	var post models.Post
-	app.DB.Debug().Find(&post, id)
-	return post
+	post = s.rep.Get(id)
+	return models.Post{
+		ID:    post.ID,
+		Title: post.Title,
+		Body:  post.Body,
+	}
 }
 
 func (s *postService) Delete(id string) {
-	app.DB.Debug().Delete(&models.Post{}, id)
+	s.rep.Delete(id)
+}
+
+func (s *postService) Response(post models.Post) responses.PostResponse {
+	return responses.PostResponse{
+		ID:    post.ID,
+		Title: post.Title,
+		Body:  post.Body,
+	}
 }

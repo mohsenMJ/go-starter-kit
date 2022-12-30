@@ -1,18 +1,16 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mohsenMj/go-starter-kit/app/initializers/database"
+	"github.com/mohsenMj/go-starter-kit/app/inputs"
+	"github.com/mohsenMj/go-starter-kit/app/models"
+	"github.com/mohsenMj/go-starter-kit/app/repositories"
+	"github.com/mohsenMj/go-starter-kit/app/responses"
 	"github.com/mohsenMj/go-starter-kit/app/services"
-	"github.com/mohsenMj/go-starter-kit/database/models"
 )
-
-type createPostInput struct {
-	Title string `json:"title" binding:"required"`
-	Body  string `json:"body" binding:"required"`
-}
 
 type PostController interface {
 	Index(ctx *gin.Context)
@@ -27,14 +25,18 @@ type controller struct {
 }
 
 func NewPostController() PostController {
-	service := services.NewPostService()
+	service := services.NewPostService(repositories.NewPostRepository(database.DB))
 	return &controller{
 		service: service,
 	}
 }
 func (c *controller) Index(ctx *gin.Context) {
-	log.Println("inside the index controller")
-	ctx.JSON(http.StatusOK, c.service.All())
+	posts := c.service.All()
+	var response []responses.PostResponse
+	for _, post := range posts {
+		response = append(response, c.service.Response(post))
+	}
+	ctx.JSON(http.StatusOK, response)
 }
 
 func (c *controller) Show(ctx *gin.Context) {
@@ -45,26 +47,31 @@ func (c *controller) Show(ctx *gin.Context) {
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK, c.service.Get(ctx.Param("id")))
+	ctx.JSON(http.StatusOK, c.service.Response(post))
 }
 
 func (c *controller) Create(ctx *gin.Context) {
-	var post models.Post
-	var input createPostInput
+	var input inputs.PostCreateInput
 	if err := ctx.ShouldBindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	post = models.Post{Title: input.Title, Body: input.Body}
+	post := models.Post{Title: input.Title, Body: input.Body}
 	c.service.Create(&post)
-	ctx.JSON(http.StatusOK, post)
+	ctx.JSON(http.StatusOK, c.service.Response(post))
 }
 
 func (c *controller) Update(ctx *gin.Context) {
+	var input inputs.PostUpdateInput
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	post := c.service.Get(ctx.Param("id"))
-	ctx.BindJSON(&post)
-	c.service.Save(&post)
-	ctx.JSON(http.StatusOK, post)
+	post.Title = input.Title
+	post.Body = input.Body
+	c.service.Update(&post)
+	ctx.JSON(http.StatusOK, c.service.Response(post))
 }
 
 func (c *controller) Delete(ctx *gin.Context) {

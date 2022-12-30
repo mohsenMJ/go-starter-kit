@@ -1,10 +1,7 @@
 package utils
 
 import (
-	"log"
 	"strings"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type Response struct {
