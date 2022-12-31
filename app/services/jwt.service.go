@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -48,7 +49,7 @@ func (s *jwtService) GenerateToken(UserID string) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	ss, err := token.SignedString([]byte(s.secretKey))
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	return ss
 }

@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -17,9 +18,8 @@ func Connect() {
 	DB_DATABASE := os.Getenv("DB_DATABASE")
 	DB_USERNAME := os.Getenv("DB_USERNAME")
 	DB_PASSWORD := os.Getenv("DB_PASSWORD")
-	dsn := DB_USERNAME + ":" + DB_PASSWORD + "@tcp(" + DB_HOST + ":" + DB_PORT + ")/" + DB_DATABASE + "?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local", DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE)
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-
 	if err != nil {
 		log.Fatal("Failed to connect to database")
 	}
@@ -30,7 +30,7 @@ func Connect() {
 func Disconnect() {
 	dbInstance, err := DB.DB()
 	if err != nil {
-		panic("Failed to close the connection")
+		log.Fatal("Failed to close the connection")
 	}
 	_ = dbInstance.Close()
 
