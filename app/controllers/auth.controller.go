@@ -14,22 +14,25 @@ type AuthController interface {
 
 type authController struct {
 	//service goes here
+	jwt services.JWTService
 }
 
 func NewAuthController() AuthController {
-	return &authController{}
+	return &authController{
+		jwt: services.NewJWTService(),
+	}
 }
 
 func (c *authController) Login(ctx *gin.Context) {
-	jwt := services.NewJWTService()
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "Hello Login",
-		"token":   jwt.GenerateToken("1"),
+		"token":   c.jwt.GenerateToken("1"),
 	})
 }
 
 func (c *authController) Register(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Hello Register",
+		"message":       "Hello Register",
+		"authenticated": "Test",
 	})
 }

@@ -25,10 +25,9 @@ type jwtService struct {
 }
 
 func NewJWTService() JWTService {
-	JWT_SECRET := os.Getenv("JWT_SECRET")
 	return &jwtService{
-		secretKey: JWT_SECRET,
-		issuer:    "test",
+		secretKey: os.Getenv("JWT_SECRET"),
+		issuer:    os.Getenv("JWT_ISSUER"),
 	}
 }
 
@@ -36,14 +35,13 @@ func (s *jwtService) GenerateToken(UserID string) string {
 	claims := MyCustomClaims{
 		UserID,
 		jwt.RegisteredClaims{
-			// A usual scenario is to set the expiration time relative to the current time
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(2 * 24 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    s.issuer,
-			Subject:   "Mohsen",
+			Subject:   "unknown",
 			ID:        UserID,
-			Audience:  []string{"Mohsen"},
+			Audience:  []string{"unknown"},
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -56,12 +54,9 @@ func (s *jwtService) GenerateToken(UserID string) string {
 
 func (s *jwtService) ValidateToken(tokenString string) (*jwt.Token, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-
-		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
 		return []byte(s.secretKey), nil
 	})
 	return token, err

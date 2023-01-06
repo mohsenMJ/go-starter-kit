@@ -5,10 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mohsenMj/go-starter-kit/app/initializers/database"
-	"github.com/mohsenMj/go-starter-kit/app/inputs"
 	"github.com/mohsenMj/go-starter-kit/app/models"
 	"github.com/mohsenMj/go-starter-kit/app/repositories"
-	"github.com/mohsenMj/go-starter-kit/app/responses"
+	"github.com/mohsenMj/go-starter-kit/app/requests"
 	"github.com/mohsenMj/go-starter-kit/app/services"
 )
 
@@ -31,12 +30,7 @@ func NewPostController() PostController {
 	}
 }
 func (c *controller) Index(ctx *gin.Context) {
-	posts := c.service.All()
-	var response []responses.PostResponse
-	for _, post := range posts {
-		response = append(response, c.service.Response(post))
-	}
-	ctx.JSON(http.StatusOK, response)
+	ctx.JSON(http.StatusOK, c.service.Responses(c.service.All()))
 }
 
 func (c *controller) Show(ctx *gin.Context) {
@@ -51,18 +45,18 @@ func (c *controller) Show(ctx *gin.Context) {
 }
 
 func (c *controller) Create(ctx *gin.Context) {
-	var input inputs.PostCreateInput
-	if err := ctx.ShouldBindJSON(&input); err != nil {
+	var reqeust requests.PostCreateRequest
+	if err := ctx.ShouldBindJSON(&reqeust); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	post := models.Post{Title: input.Title, Body: input.Body}
+	post := models.Post{Title: reqeust.Title, Body: reqeust.Body}
 	c.service.Create(&post)
 	ctx.JSON(http.StatusOK, c.service.Response(post))
 }
 
 func (c *controller) Update(ctx *gin.Context) {
-	var input inputs.PostUpdateInput
+	var input requests.PostUpdateRequest
 	if err := ctx.ShouldBindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

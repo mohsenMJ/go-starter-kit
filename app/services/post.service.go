@@ -13,6 +13,7 @@ type PostService interface {
 	All() []models.Post
 	Get(id string) models.Post
 	Response(post models.Post) responses.PostResponse
+	Responses(posts []models.Post) []responses.PostResponse
 }
 
 type postService struct {
@@ -35,15 +36,6 @@ func (s *postService) Update(post *models.Post) {
 
 func (s *postService) All() []models.Post {
 	posts := s.rep.All()
-
-	// var response []models.Post
-	// for _, post := range posts {
-	// 	response = append(response, models.Post{
-	// 		ID:    post.ID,
-	// 		Title: post.Title,
-	// 		Body:  post.Body,
-	// 	})
-	// }
 	return posts
 }
 
@@ -67,4 +59,12 @@ func (s *postService) Response(post models.Post) responses.PostResponse {
 		Title: post.Title,
 		Body:  post.Body,
 	}
+}
+
+func (s *postService) Responses(posts []models.Post) []responses.PostResponse {
+	var response []responses.PostResponse
+	for _, post := range posts {
+		response = append(response, s.Response(post))
+	}
+	return response
 }

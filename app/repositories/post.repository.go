@@ -39,7 +39,6 @@ func (r *postRepository) Delete(id string) {
 
 func (r *postRepository) All() []models.Post {
 	var posts []models.Post
-	// database.DB.Debug().Find(&posts)
 	r.db.Debug().Find(&posts)
 	return posts
 }
