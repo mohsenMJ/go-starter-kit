@@ -18,6 +18,7 @@ func Api(r *gin.Engine) {
 		}
 	}
 
+	// public routes
 	postGroup := r.Group("/posts")
 	{
 		postGroup.GET("/", postController.Index)
