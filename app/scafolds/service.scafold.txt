@@ -1,0 +1,70 @@
+package services
+
+import (
+	"github.com/mohsenMj/go-starter-kit/app/models"
+	"github.com/mohsenMj/go-starter-kit/app/repositories"
+	"github.com/mohsenMj/go-starter-kit/app/responses"
+)
+
+type $ModelService interface {
+	Create($model *models.$Model)
+	Update($model *models.$Model)
+	Delete(id string)
+	All() []models.$Model
+	Get(id string) models.$Model
+	Response($model models.$Model) responses.$ModelResponse
+	Responses($models []models.$Model) []responses.$ModelResponse
+}
+
+type $modelService struct {
+	rep repositories.$ModelRepository
+}
+
+func New$ModelService(rep repositories.$ModelRepository) $ModelService {
+	return &$modelService{
+		rep: rep,
+	}
+}
+
+func (s *$modelService) Create($model *models.$Model) {
+	s.rep.Create($model)
+}
+
+func (s *$modelService) Update($model *models.$Model) {
+	s.rep.Update($model)
+}
+
+func (s *$modelService) All() []models.$Model {
+	$models := s.rep.All()
+	return $models
+}
+
+func (s *$modelService) Get(id string) models.$Model {
+	var $model models.$Model
+	$model = s.rep.Get(id)
+	return models.$Model{
+		ID:    $model.ID,
+		Title: $model.Title,
+		Body:  $model.Body,
+	}
+}
+
+func (s *$modelService) Delete(id string) {
+	s.rep.Delete(id)
+}
+
+func (s *$modelService) Response($model models.$Model) responses.$ModelResponse {
+	return responses.$ModelResponse{
+		ID:    $model.ID,
+		Title: $model.Title,
+		Body:  $model.Body,
+	}
+}
+
+func (s *$modelService) Responses($models []models.$Model) []responses.$ModelResponse {
+	var response []responses.$ModelResponse
+	for _, $model := range $models {
+		response = append(response, s.Response($model))
+	}
+	return response
+}

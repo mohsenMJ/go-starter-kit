@@ -7,5 +7,7 @@ func Execute(args []string) {
 		Migrate()
 	case "seed":
 		RunSeeders()
+	case "make":
+		Make(args)
 	}
 }

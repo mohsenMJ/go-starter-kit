@@ -1,0 +1,50 @@
+package repositories
+
+import (
+	"github.com/mohsenMj/go-starter-kit/app/models"
+	"gorm.io/gorm"
+)
+
+type $ModelRepository interface {
+	Create($model *models.$Model) *models.$Model
+	Update($model *models.$Model) *models.$Model
+	Delete(id string)
+	All() []models.$Model
+	Get(id string) models.$Model
+}
+
+type $modelRepository struct {
+	db *gorm.DB
+}
+
+func New$ModelRepository(db *gorm.DB) $ModelRepository {
+	return &$modelRepository{
+		db: db,
+	}
+}
+
+func (r *$modelRepository) Create($model *models.$Model) *models.$Model {
+	r.db.Debug().Create(&$model)
+	return $model
+}
+
+func (r *$modelRepository) Update($model *models.$Model) *models.$Model {
+	r.db.Save(&$model)
+	return $model
+}
+
+func (r *$modelRepository) Delete(id string) {
+	r.db.Debug().Delete(&models.$Model{}, id)
+}
+
+func (r *$modelRepository) All() []models.$Model {
+	var $models []models.$Model
+	r.db.Debug().Find(&$models)
+	return $models
+}
+
+func (r *$modelRepository) Get(id string) models.$Model {
+	var $model models.$Model
+	r.db.Debug().Find(&$model, id)
+	return $model
+}

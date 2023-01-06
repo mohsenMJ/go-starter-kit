@@ -1,0 +1,79 @@
+package controllers
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/mohsenMj/go-starter-kit/app/initializers/database"
+	"github.com/mohsenMj/go-starter-kit/app/models"
+	"github.com/mohsenMj/go-starter-kit/app/repositories"
+	"github.com/mohsenMj/go-starter-kit/app/requests"
+	"github.com/mohsenMj/go-starter-kit/app/services"
+)
+
+type $ModelController interface {
+	Index(ctx *gin.Context)
+	Show(ctx *gin.Context)
+	Create(ctx *gin.Context)
+	Update(ctx *gin.Context)
+	Delete(ctx *gin.Context)
+}
+
+type controller struct {
+	service services.$ModelService
+}
+
+func New$ModelController() $ModelController {
+	service := services.New$ModelService(repositories.New$ModelRepository(database.DB))
+	return &controller{
+		service: service,
+	}
+}
+func (c *controller) Index(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, c.service.Responses(c.service.All()))
+}
+
+func (c *controller) Show(ctx *gin.Context) {
+	$model := c.service.Get(ctx.Param("id"))
+	if $model.ID == 0 {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"message": "Object Not found",
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK, c.service.Response($model))
+}
+
+func (c *controller) Create(ctx *gin.Context) {
+	var reqeust requests.$ModelCreateRequest
+	if err := ctx.ShouldBindJSON(&reqeust); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	$model := models.$Model{Title: reqeust.Title, Body: reqeust.Body}
+	c.service.Create(&$model)
+	ctx.JSON(http.StatusOK, c.service.Response($model))
+}
+
+func (c *controller) Update(ctx *gin.Context) {
+	var input requests.$ModelUpdateRequest
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	$model := c.service.Get(ctx.Param("id"))
+	$model.Title = input.Title
+	$model.Body = input.Body
+	c.service.Update(&$model)
+	ctx.JSON(http.StatusOK, c.service.Response($model))
+}
+
+func (c *controller) Delete(ctx *gin.Context) {
+	$model := c.service.Get(ctx.Param("id"))
+	if $model.ID == 0 {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Model not found"})
+		return
+	}
+	c.service.Delete(ctx.Param("id"))
+	ctx.Status(http.StatusOK)
+}

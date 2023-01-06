@@ -1,0 +1,9 @@
+package requests
+
+type $ModelCreateRequest struct {
+	Filed string `json:"title" binding:"required"`
+}
+
+type $ModelUpdateRequest struct {
+	Field string `json:"title" binding:"required"`
+}
