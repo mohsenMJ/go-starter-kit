@@ -7,13 +7,13 @@ import (
 )
 
 type PostService interface {
-	Create(post *models.Post)
-	Update(post *models.Post)
-	Delete(id string)
-	All() []models.Post
-	Get(id string) models.Post
-	Response(post models.Post) responses.PostResponse
-	Responses(posts []models.Post) []responses.PostResponse
+	PostCreate(post *models.Post)
+	PostUpdate(post *models.Post)
+	PostDelete(id string)
+	PostAll() []models.Post
+	PostGet(id string) models.Post
+	PostResponse(post models.Post) responses.PostResponse
+	PostResponses(posts []models.Post) []responses.PostResponse
 }
 
 type postService struct {
@@ -26,22 +26,22 @@ func NewPostService(rep repositories.PostRepository) PostService {
 	}
 }
 
-func (s *postService) Create(post *models.Post) {
-	s.rep.Create(post)
+func (s *postService) PostCreate(post *models.Post) {
+	s.rep.PostCreate(post)
 }
 
-func (s *postService) Update(post *models.Post) {
-	s.rep.Update(post)
+func (s *postService) PostUpdate(post *models.Post) {
+	s.rep.PostUpdate(post)
 }
 
-func (s *postService) All() []models.Post {
-	posts := s.rep.All()
+func (s *postService) PostAll() []models.Post {
+	posts := s.rep.PostAll()
 	return posts
 }
 
-func (s *postService) Get(id string) models.Post {
+func (s *postService) PostGet(id string) models.Post {
 	var post models.Post
-	post = s.rep.Get(id)
+	post = s.rep.PostGet(id)
 	return models.Post{
 		ID:    post.ID,
 		Title: post.Title,
@@ -49,11 +49,11 @@ func (s *postService) Get(id string) models.Post {
 	}
 }
 
-func (s *postService) Delete(id string) {
-	s.rep.Delete(id)
+func (s *postService) PostDelete(id string) {
+	s.rep.PostDelete(id)
 }
 
-func (s *postService) Response(post models.Post) responses.PostResponse {
+func (s *postService) PostResponse(post models.Post) responses.PostResponse {
 	return responses.PostResponse{
 		ID:    post.ID,
 		Title: post.Title,
@@ -61,10 +61,10 @@ func (s *postService) Response(post models.Post) responses.PostResponse {
 	}
 }
 
-func (s *postService) Responses(posts []models.Post) []responses.PostResponse {
+func (s *postService) PostResponses(posts []models.Post) []responses.PostResponse {
 	var response []responses.PostResponse
 	for _, post := range posts {
-		response = append(response, s.Response(post))
+		response = append(response, s.PostResponse(post))
 	}
 	return response
 }

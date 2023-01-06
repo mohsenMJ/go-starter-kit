@@ -6,11 +6,11 @@ import (
 )
 
 type PostRepository interface {
-	Create(post *models.Post) *models.Post
-	Update(post *models.Post) *models.Post
-	Delete(id string)
-	All() []models.Post
-	Get(id string) models.Post
+	PostCreate(post *models.Post) *models.Post
+	PostUpdate(post *models.Post) *models.Post
+	PostDelete(id string)
+	PostAll() []models.Post
+	PostGet(id string) models.Post
 }
 
 type postRepository struct {
@@ -23,27 +23,27 @@ func NewPostRepository(db *gorm.DB) PostRepository {
 	}
 }
 
-func (r *postRepository) Create(post *models.Post) *models.Post {
+func (r *postRepository) PostCreate(post *models.Post) *models.Post {
 	r.db.Debug().Create(&post)
 	return post
 }
 
-func (r *postRepository) Update(post *models.Post) *models.Post {
+func (r *postRepository) PostUpdate(post *models.Post) *models.Post {
 	r.db.Save(&post)
 	return post
 }
 
-func (r *postRepository) Delete(id string) {
+func (r *postRepository) PostDelete(id string) {
 	r.db.Debug().Delete(&models.Post{}, id)
 }
 
-func (r *postRepository) All() []models.Post {
+func (r *postRepository) PostAll() []models.Post {
 	var posts []models.Post
 	r.db.Debug().Find(&posts)
 	return posts
 }
 
-func (r *postRepository) Get(id string) models.Post {
+func (r *postRepository) PostGet(id string) models.Post {
 	var post models.Post
 	r.db.Debug().Find(&post, id)
 	return post

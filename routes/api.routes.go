@@ -21,10 +21,10 @@ func Api(r *gin.Engine) {
 	// public routes
 	postGroup := r.Group("/posts")
 	{
-		postGroup.GET("/", postController.Index)
-		postGroup.GET("/:id", postController.Show)
-		postGroup.POST("/", postController.Create)
-		postGroup.PUT("/:id", postController.Update)
-		postGroup.DELETE("/:id", postController.Delete)
+		postGroup.GET("/", postController.PostIndex)
+		postGroup.GET("/:id", postController.PostShow)
+		postGroup.POST("/", postController.PostCreate)
+		postGroup.PUT("/:id", postController.PostUpdate)
+		postGroup.DELETE("/:id", postController.PostDelete)
 	}
 }

@@ -6,11 +6,11 @@ import (
 )
 
 type $ModelRepository interface {
-	Create($model *models.$Model) *models.$Model
-	Update($model *models.$Model) *models.$Model
-	Delete(id string)
-	All() []models.$Model
-	Get(id string) models.$Model
+	$ModelCreate($model *models.$Model) *models.$Model
+	$ModelUpdate($model *models.$Model) *models.$Model
+	$ModelDelete(id string)
+	$ModelAll() []models.$Model
+	$ModelGet(id string) models.$Model
 }
 
 type $modelRepository struct {
@@ -23,27 +23,27 @@ func New$ModelRepository(db *gorm.DB) $ModelRepository {
 	}
 }
 
-func (r *$modelRepository) Create($model *models.$Model) *models.$Model {
+func (r *$modelRepository) $ModelCreate($model *models.$Model) *models.$Model {
 	r.db.Debug().Create(&$model)
 	return $model
 }
 
-func (r *$modelRepository) Update($model *models.$Model) *models.$Model {
+func (r *$modelRepository) $ModelUpdate($model *models.$Model) *models.$Model {
 	r.db.Save(&$model)
 	return $model
 }
 
-func (r *$modelRepository) Delete(id string) {
+func (r *$modelRepository) $ModelDelete(id string) {
 	r.db.Debug().Delete(&models.$Model{}, id)
 }
 
-func (r *$modelRepository) All() []models.$Model {
+func (r *$modelRepository) $ModelAll() []models.$Model {
 	var $models []models.$Model
 	r.db.Debug().Find(&$models)
 	return $models
 }
 
-func (r *$modelRepository) Get(id string) models.$Model {
+func (r *$modelRepository) $ModelGet(id string) models.$Model {
 	var $model models.$Model
 	r.db.Debug().Find(&$model, id)
 	return $model
