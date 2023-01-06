@@ -50,7 +50,7 @@ func (c *$modelController) $ModelCreate(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	$model := models.$Model{Title: reqeust.Title, Body: reqeust.Body}
+	$model := models.$Model{Title: reqeust.Title}
 	c.service.$ModelCreate(&$model)
 	ctx.JSON(http.StatusOK, c.service.$ModelResponse($model))
 }
@@ -63,7 +63,6 @@ func (c *$modelController) $ModelUpdate(ctx *gin.Context) {
 	}
 	$model := c.service.$ModelGet(ctx.Param("id"))
 	$model.Title = input.Title
-	$model.Body = input.Body
 	c.service.$ModelUpdate(&$model)
 	ctx.JSON(http.StatusOK, c.service.$ModelResponse($model))
 }

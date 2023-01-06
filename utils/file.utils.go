@@ -24,7 +24,7 @@ func CreateFile(filename string, content string) {
 		}
 		f.Close()
 	}
-	fmt.Println("File Created Successfully", filename)
+	fmt.Println("File Created Successfully :", filename)
 }
 
 func ReadFileByte(filename string) []byte {

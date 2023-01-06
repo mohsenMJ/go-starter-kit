@@ -45,7 +45,6 @@ func (s *$modelService) $ModelGet(id string) models.$Model {
 	return models.$Model{
 		ID:    $model.ID,
 		Title: $model.Title,
-		Body:  $model.Body,
 	}
 }
 
@@ -57,7 +56,6 @@ func (s *$modelService) $ModelResponse($model models.$Model) responses.$ModelRes
 	return responses.$ModelResponse{
 		ID:    $model.ID,
 		Title: $model.Title,
-		Body:  $model.Body,
 	}
 }
 

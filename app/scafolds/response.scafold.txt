@@ -2,4 +2,5 @@ package responses
 
 type $ModelResponse struct {
 	ID    uint   `json:"id"`
+	Title string `json:"title"`
 }

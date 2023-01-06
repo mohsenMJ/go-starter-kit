@@ -7,6 +7,8 @@ import (
 type $Model struct {
 	ID uint `gorm:"primarykey"`
 
+	Title string `json:"title"`
+
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
