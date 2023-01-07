@@ -1,4 +1,6 @@
 .env
+go-starter-kit.exe
+
 /.idea
 /.vscode
 /tmp
