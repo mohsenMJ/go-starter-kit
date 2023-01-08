@@ -11,5 +11,5 @@ func LoadVariables() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	log.Println("Env Variables are loaded")
+	// log.Println("Env Variables are loaded")
 }

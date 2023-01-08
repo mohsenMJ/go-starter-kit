@@ -6,6 +6,15 @@ import (
 	"github.com/mohsenMj/go-starter-kit/app/types/List"
 )
 
+func init() {
+	Commands = append(Commands, Command{
+		Run:         "test",
+		Description: "a general purpose command to run and test part of codes ...",
+		Example:     "go run . test",
+		Author:      "Mohsen Majidi",
+	})
+}
+
 func CmdTestHander() {
 	fmt.Println("================= Test Start =================")
 	fmt.Println("running test")

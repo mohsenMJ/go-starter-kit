@@ -24,7 +24,7 @@ func Connect() {
 		log.Fatal("Failed to connect to database")
 	}
 
-	log.Println("Databse is connected Successfuly...")
+	// log.Println("Databse is connected Successfuly...")
 }
 
 func Disconnect() {
@@ -34,5 +34,5 @@ func Disconnect() {
 	}
 	_ = dbInstance.Close()
 
-	log.Println("Databse connection closed Successfuly...")
+	// log.Println("Databse connection closed Successfuly...")
 }

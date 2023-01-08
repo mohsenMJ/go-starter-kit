@@ -1,5 +1,14 @@
 package cmd
 
+var Commands []Command
+
+type Command struct {
+	Run         string
+	Description string
+	Example     string
+	Author      string
+}
+
 func Execute(args []string) {
 	// Get Command Name
 	command := args[1]
@@ -13,5 +22,7 @@ func Execute(args []string) {
 		CmdRunSeedersHandler()
 	case "make:model":
 		CmdMakeModelHandler(args)
+	case "help":
+		CmdHelpHandler()
 	}
 }

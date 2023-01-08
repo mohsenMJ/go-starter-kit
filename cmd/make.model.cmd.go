@@ -8,6 +8,15 @@ import (
 	"github.com/mohsenMj/go-starter-kit/utils"
 )
 
+func init() {
+	Commands = append(Commands, Command{
+		Run:         "make:model [model_name]",
+		Description: "make all files according to scafolds for new model",
+		Example:     "go run . make:model NewModel",
+		Author:      "Mohsen Majidi",
+	})
+}
+
 func CmdMakeModelHandler(args []string) {
 	fmt.Println("================= Start Making =================")
 
